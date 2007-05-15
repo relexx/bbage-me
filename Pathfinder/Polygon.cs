@@ -61,5 +61,27 @@ namespace Pathfinder
 
       return result;
     }
+
+    public override bool Equals(object obj)
+    {
+      bool result = false;
+      Polygon p1 = this;
+      Polygon p2 = obj as Polygon;
+
+      if (  p1 == null && p1 != null
+        ||  p1 != null && p1 == null)
+      { return false; }
+      else if ( p1 == null && p1 == null)
+      { return true; }
+      
+      if (p1.m_Vertice0 == p2.m_Vertice0
+        && p1.m_Vertice1 == p2.m_Vertice1
+        && p1.m_Vertice2 == p2.m_Vertice2)
+      {
+        result = true;
+      }
+
+      return result;
+    }
   }
 }

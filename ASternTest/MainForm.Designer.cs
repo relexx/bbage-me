@@ -30,6 +30,7 @@ namespace ASternTest
     {
       this.btnDoPaint = new System.Windows.Forms.Button();
       this.plTarget = new System.Windows.Forms.Panel();
+      this.button1 = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // btnDoPaint
@@ -55,12 +56,24 @@ namespace ASternTest
       this.plTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(this.plTarget_MouseDown);
       this.plTarget.Paint += new System.Windows.Forms.PaintEventHandler(this.plTarget_Paint);
       // 
+      // button1
+      // 
+      this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.button1.Location = new System.Drawing.Point(474, 41);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.TabIndex = 0;
+      this.button1.Text = "Clear";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.button1_Click);
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(561, 324);
       this.Controls.Add(this.plTarget);
+      this.Controls.Add(this.button1);
       this.Controls.Add(this.btnDoPaint);
       this.Name = "MainForm";
       this.Text = "Form1";
@@ -74,6 +87,7 @@ namespace ASternTest
 
     private System.Windows.Forms.Button btnDoPaint;
     private System.Windows.Forms.Panel plTarget;
+    private System.Windows.Forms.Button button1;
   }
 }
 
