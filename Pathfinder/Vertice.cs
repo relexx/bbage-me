@@ -52,5 +52,10 @@ namespace Pathfinder
 
       return result;
     }
+
+    public override int GetHashCode()
+    {
+      return base.GetHashCode();
+    }
   }
 }

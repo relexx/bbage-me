@@ -8,4 +8,9 @@ namespace Pathfinder
   {
     centroid
   }
+  public enum PolygonType
+  {
+    normal,
+    obstacle
+  }
 }
