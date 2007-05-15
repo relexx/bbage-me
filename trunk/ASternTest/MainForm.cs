@@ -12,6 +12,7 @@ namespace ASternTest
   public partial class MainForm : Form
   {
     private PolygonManager m_Manager;
+    private Polygon m_SelectedPolygon;
 
     public MainForm()
     {
@@ -40,23 +41,45 @@ namespace ASternTest
 
       foreach (Polygon p in m_Manager.PolygonList)
       {
-        g.DrawLine(Pens.Black, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10);
-        g.DrawLine(Pens.Black, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10);
-        g.DrawLine(Pens.Black, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10);
+        DrawPolygon(g, p);
       }
+      if (m_SelectedPolygon != null)
+      {
+        DrawPolygon(g, m_SelectedPolygon);
+        FillPolygon(g, m_SelectedPolygon);
+      }
+    }
+
+    private void DrawPolygon(Graphics g, Polygon p)
+    {
+      g.DrawLine(Pens.Black, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10);
+      g.DrawLine(Pens.Black, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10);
+      g.DrawLine(Pens.Black, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10);
+    }
+
+    private void FillPolygon(Graphics g, Polygon p)
+    {
+      g.FillPolygon(Brushes.Red, new Point[] {
+        new Point(p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10), 
+        new Point(p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10),
+        new Point(p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10)});
     }
 
     private void btnDoPaint_Click(object sender, EventArgs e)
     {
-      Image img = new Bitmap(plTarget.Width, plTarget.Height);
-      Graphics g = Graphics.FromImage(img);
+      plTarget.Refresh();
+    }
 
-      DoPaint(g);
-      if (plTarget.BackgroundImage != null)
-      {
-        plTarget.BackgroundImage.Dispose();
-      }
-      plTarget.BackgroundImage = img;
+    private void plTarget_Paint(object sender, PaintEventArgs e)
+    {
+      DoPaint(e.Graphics);
+    }
+
+    private void plTarget_MouseDown(object sender, MouseEventArgs e)
+    {
+      Point p = new Point((int)Math.Floor((double)e.X / 10), (int)Math.Floor((double)e.Y / 10));
+      m_SelectedPolygon = m_Manager.FindPolygon(p);
+      Refresh();
     }
   }
 }
