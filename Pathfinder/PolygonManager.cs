@@ -186,7 +186,7 @@ namespace Pathfinder
       m_PolygonList.Add(p06);
       m_PolygonList.Add(p07);
       m_PolygonList.Add(p08);
-      m_PolygonList.Add(p08);
+      m_PolygonList.Add(p09);
       m_PolygonList.Add(p10);
       m_PolygonList.Add(p11);
       m_PolygonList.Add(p12);
@@ -200,10 +200,31 @@ namespace Pathfinder
       m_VerticeList.Add(v06);
       m_VerticeList.Add(v07);
       m_VerticeList.Add(v08);
-      m_VerticeList.Add(v08);
+      m_VerticeList.Add(v09);
       m_VerticeList.Add(v10);
       m_VerticeList.Add(v11);
       m_VerticeList.Add(v12);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns>null if not found</returns>
+    public Polygon FindPolygon(Point pos)
+    {
+      Polygon result = null;
+
+      foreach (Polygon poly in m_PolygonList)
+      {
+        if (poly.Contains(pos))
+        {
+          result = poly;
+          break;
+        }
+      }
+
+      return result;
     }
 
     public void AutoAddPointList(Point[] points)

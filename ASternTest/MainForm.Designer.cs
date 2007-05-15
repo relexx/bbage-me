@@ -52,6 +52,8 @@ namespace ASternTest
       this.plTarget.Name = "plTarget";
       this.plTarget.Size = new System.Drawing.Size(456, 300);
       this.plTarget.TabIndex = 1;
+      this.plTarget.MouseDown += new System.Windows.Forms.MouseEventHandler(this.plTarget_MouseDown);
+      this.plTarget.Paint += new System.Windows.Forms.PaintEventHandler(this.plTarget_Paint);
       // 
       // MainForm
       // 

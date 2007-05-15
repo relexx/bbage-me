@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BuboBubo Map-Editor", "Map-Editor\BuboBubo Map-Editor.vbproj", "{E1AF353D-3FFB-4876-BB71-1A17A8353C92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder", "Pathfinder\Pathfinder.csproj", "{337DF0F9-AB44-4D4D-A361-31797815485B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASternTest", "ASternTest\ASternTest.csproj", "{C1455D06-5AB2-473B-B851-921EDF451050}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{E1AF353D-3FFB-4876-BB71-1A17A8353C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1AF353D-3FFB-4876-BB71-1A17A8353C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1AF353D-3FFB-4876-BB71-1A17A8353C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{337DF0F9-AB44-4D4D-A361-31797815485B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{337DF0F9-AB44-4D4D-A361-31797815485B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{337DF0F9-AB44-4D4D-A361-31797815485B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{337DF0F9-AB44-4D4D-A361-31797815485B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1455D06-5AB2-473B-B851-921EDF451050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1455D06-5AB2-473B-B851-921EDF451050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1455D06-5AB2-473B-B851-921EDF451050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1455D06-5AB2-473B-B851-921EDF451050}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
