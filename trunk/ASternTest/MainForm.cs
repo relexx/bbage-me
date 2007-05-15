@@ -6,26 +6,31 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Pathfinder;
+using System.Drawing.Drawing2D;
 
 namespace ASternTest
 {
   public partial class MainForm : Form
   {
     private PolygonManager m_Manager;
+    private Pathfinder.Pathfinder m_Pathfinder;
     private Polygon m_SelectedSourcePolygon;
     private Polygon m_SelectedDestinationPolygon;
-    private List<Polygon> m_SelectedBlockedPolygons;
+    private Polygon[] m_PathPolygons;
+    private int m_Factor;
 
     public MainForm()
     {
       InitializeComponent();
 
-      m_SelectedBlockedPolygons = new List<Polygon>();
+      m_Factor = 10;
     }
 
     private void MainForm_Load(object sender, EventArgs e)
     {
       m_Manager = new PolygonManager();
+      m_Pathfinder = new Pathfinder.Pathfinder(m_Manager);
+
       m_Manager.DoTestData();
       btnDoPaint_Click(null, null);
     }
@@ -37,44 +42,69 @@ namespace ASternTest
 
     private void DoPaint(Graphics g)
     {
-      int pointwidth = 6;
-      foreach (Vertice v in m_Manager.VerticeList)
-      {
-        g.FillPie(Brushes.Red, v.Position.X * 10 - pointwidth / 2, v.Position.Y * 10 - pointwidth / 2, pointwidth, pointwidth, 0, 360);
-      }
-
       foreach (Polygon p in m_Manager.PolygonList)
       {
         DrawPolygon(g, p);
+
+        if (p.Type == PolygonType.obstacle)
+        {
+          FillPolygon(g, p, Color.Gray);
+        }
       }
+
       if (m_SelectedSourcePolygon != null)
       {
-        FillPolygon(g, m_SelectedSourcePolygon, Color.Red);
+        FillPolygon(g, m_SelectedSourcePolygon, Color.DarkRed);
       }
       if (m_SelectedDestinationPolygon != null)
       {
-        FillPolygon(g, m_SelectedDestinationPolygon, Color.Blue);
+        FillPolygon(g, m_SelectedDestinationPolygon, Color.DarkBlue);
+      }
+      if (m_SelectedDestinationPolygon != null && m_SelectedSourcePolygon != null)
+      {
+        Point c1 = m_SelectedSourcePolygon.GetCenter();
+        Point c2 = m_SelectedDestinationPolygon.GetCenter();
+        Pen p = (Pen)Pens.White.Clone();
+        p.EndCap = System.Drawing.Drawing2D.LineCap.RoundAnchor;
+        g.DrawLine(p, c1.X * m_Factor, c1.Y * m_Factor, c2.X * m_Factor, c2.Y * m_Factor);
       }
 
-      foreach (Polygon blockedpoly in m_SelectedBlockedPolygons)
+      int pointwidth = 2 * m_Factor / 5;
+      pointwidth = pointwidth < 2 ? 2 : pointwidth;
+      foreach (Vertice v in m_Manager.VerticeList)
       {
-        FillPolygon(g, blockedpoly, Color.Gray);
+        g.FillPie(Brushes.Red, v.Position.X * m_Factor - pointwidth / 2, v.Position.Y * m_Factor - pointwidth / 2, pointwidth, pointwidth, 0, 360);
+      }
+
+      if (m_PathPolygons != null)
+      {
+        for (int i = 0; i < m_PathPolygons.Length; i++)
+			  {
+          Point pathpoint = m_PathPolygons[i].GetCenter();
+          g.FillPie(Brushes.Black, new Rectangle(pathpoint.X * m_Factor - pointwidth / 2, pathpoint.Y * m_Factor - pointwidth / 2, pointwidth, pointwidth), 0, 360);
+
+          if (i + 1 < m_PathPolygons.Length)
+          {
+            Point pathpoint2 = m_PathPolygons[i + 1].GetCenter();
+            g.DrawLine(Pens.Black, pathpoint.X * m_Factor, pathpoint.Y * m_Factor, pathpoint2.X * m_Factor, pathpoint2.Y * m_Factor);
+          }
+        }
       }
     }
 
     private void DrawPolygon(Graphics g, Polygon p)
     {
-      g.DrawLine(Pens.Black, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10);
-      g.DrawLine(Pens.Black, p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10);
-      g.DrawLine(Pens.Black, p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10, p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10);
+      g.DrawLine(Pens.Black, p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor, p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor);
+      g.DrawLine(Pens.Black, p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor, p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor);
+      g.DrawLine(Pens.Black, p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor, p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor);
     }
 
     private void FillPolygon(Graphics g, Polygon p, Color c)
     {
       g.FillPolygon(new SolidBrush(c), new Point[] {
-        new Point(p.Vertice0.Position.X * 10, p.Vertice0.Position.Y * 10), 
-        new Point(p.Vertice1.Position.X * 10, p.Vertice1.Position.Y * 10),
-        new Point(p.Vertice2.Position.X * 10, p.Vertice2.Position.Y * 10)});
+        new Point(p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor), 
+        new Point(p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor),
+        new Point(p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor)});
     }
 
     private void btnDoPaint_Click(object sender, EventArgs e)
@@ -89,42 +119,64 @@ namespace ASternTest
 
     private void plTarget_MouseDown(object sender, MouseEventArgs e)
     {
-      Point p = new Point((int)Math.Floor((double)e.X / 10), (int)Math.Floor((double)e.Y / 10));
+      Point p = new Point((int)Math.Floor((double)e.X / m_Factor), (int)Math.Floor((double)e.Y / m_Factor));
       Polygon poly = m_Manager.FindPolygon(p);
 
       if (e.Button == MouseButtons.Left)
       {
-        if (m_SelectedSourcePolygon != null)
+        if (poly != null)
         {
-          m_SelectedDestinationPolygon = m_SelectedSourcePolygon;
+          if (m_SelectedSourcePolygon != null)
+          {
+            m_SelectedDestinationPolygon = m_SelectedSourcePolygon;
+          }
+          m_SelectedSourcePolygon = poly;
         }
-        m_SelectedSourcePolygon = poly;
+        else
+        {
+          m_SelectedSourcePolygon = null;
+          m_SelectedDestinationPolygon = null;
+        }
       }
       else if (poly != null)
       {
-        bool exists = false;
-        foreach (Polygon existingpoly in m_SelectedBlockedPolygons)
+        if (poly.Type == PolygonType.normal)
         {
-          if (existingpoly == poly)
-          {
-            exists = true;
-            m_SelectedBlockedPolygons.Remove(existingpoly);
-            break;
-          }
+          poly.Type = PolygonType.obstacle;
         }
-        if (!exists)
+        else
         {
-          m_SelectedBlockedPolygons.Add(poly);
+          poly.Type = PolygonType.normal;
         }
       }
-      Refresh();
+      plTarget.Refresh();
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void btnClear_Click(object sender, EventArgs e)
     {
-      m_SelectedBlockedPolygons.Clear();
+      foreach (Polygon poly in m_Manager.PolygonList)
+      {
+        poly.Type = PolygonType.normal;
+      }
       m_SelectedDestinationPolygon = null;
       m_SelectedSourcePolygon = null;
+      plTarget.Refresh();
+    }
+
+    private void tbFactor_Scroll(object sender, EventArgs e)
+    {
+      ttInfo.SetToolTip((Control)sender, "Factor: "+tbFactor.Value);
+      m_Factor = tbFactor.Value;
+      plTarget.Refresh();
+    }
+
+    private void btnFindPath_Click(object sender, EventArgs e)
+    {
+      if (m_SelectedDestinationPolygon != null && m_SelectedSourcePolygon != null)
+      {
+        m_PathPolygons = m_Pathfinder.FindPath(m_SelectedSourcePolygon, m_SelectedDestinationPolygon);
+        plTarget.Refresh();
+      }
     }
   }
 }

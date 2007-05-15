@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="Pathfinder.cs" />
     <Compile Include="Polygon.cs" />
-    <Compile Include="PolygonCenterType.cs" />
+    <Compile Include="PolygonEnums.cs" />
     <Compile Include="PolygonManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vertice.cs" />
