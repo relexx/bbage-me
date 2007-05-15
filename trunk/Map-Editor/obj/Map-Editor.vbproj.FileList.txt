@@ -1,0 +1,13 @@
+bin\Debug\Map-Editor.exe
+bin\Debug\Map-Editor.pdb
+bin\Debug\Map-Editor.xml
+bin\Debug\Interop.SpriteCraft.dll
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\Interop.SpriteCraft.dll
+obj\Debug\Map-Editor.vbproj.ResolveComReference.cache
+obj\Debug\Map_Editor.Resources.resources
+obj\Debug\Map-Editor.vbproj.GenerateResource.Cache
+obj\Debug\Map-Editor.exe
+obj\Debug\Map-Editor.xml
+obj\Debug\Map-Editor.pdb
+obj\Debug\Map_Editor.frmToolbox.resources

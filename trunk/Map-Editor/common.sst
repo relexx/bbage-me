@@ -1,0 +1,38 @@
+#!SST
+
+#The ship itself: this picture contains 3 views of space ship: 
+#moving left, flying forward, and moving right. The sprite is 
+#displayed with blend type and uses alpha-channel.
+
+sprite player_warbot {
+bitmap  = ../../sprites/player_warbot.tga
+type    = blend
+layout  = 3x1
+collide = bitmask
+}
+
+#The ship's exhausting trail is also displayed using alpha-channel. 
+#We'll need to create two instances of this sprite class.
+
+sprite player_warbot_trak {
+bitmap  = ../../sprites/trak.tga
+type    = blend
+layout  = 1x1
+hotspot = 7,0
+}
+
+sprite mouse_cursor {
+bitmap	= ../../sprites/cursor.tga
+type	= blend
+layout	= 1x1
+hotspot	= 2,2
+}
+
+sprite character {
+bitmap	= ../../sprites/ACTION3.bmp
+type    = colorkey
+keyrgb  = ff00ff
+layout	= 19x11
+hotspot = center
+collide = bitmask
+}
