@@ -32,5 +32,25 @@ namespace Pathfinder
     {
       m_Position = p;
     }
+
+    public override bool  Equals(object obj)
+    {
+      bool result = false;
+      Vertice v1 = this;
+      Vertice v2 = obj as Vertice;
+
+      if (v1 == null && v1 != null
+        || v1 != null && v1 == null)
+      { return false; }
+      else if (v1 == null && v1 == null)
+      { return true; }
+
+      if (v1.m_Position == v2.m_Position)
+      {
+        result = true;
+      }
+
+      return result;
+    }
   }
 }
