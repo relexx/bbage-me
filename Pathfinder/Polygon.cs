@@ -6,6 +6,9 @@ using System.Drawing.Drawing2D;
 
 namespace Pathfinder
 {
+  /// <summary>
+  /// a triangle-shaped structure. Consists of 3 Vertices
+  /// </summary>
   public class Polygon
   {
     private static int s_IdCounter = 0;
@@ -18,46 +21,66 @@ namespace Pathfinder
     private PolygonCenterType m_CenterType;
     private List<Polygon> m_Neighbors;
 
+    /// <summary>
+    /// Polygon Identity
+    /// </summary>
     public int ID
     {
       get { return id; }
     }
 
+    /// <summary>
+    /// List of Neighbors surrounding the current Polygon.
+    /// Be careful. Use RefreshNeigbors() Method for refreshing this data.
+    /// </summary>
     public List<Polygon> Neighbors
     {
       get { return m_Neighbors; }
-      set { m_Neighbors = value; }
     }
 
+    /// <summary>
+    /// The type of the Centerpoint calculation. Default: centroid
+    /// </summary>
     public PolygonCenterType CenterType
     {
       get { return m_CenterType; }
       set { m_CenterType = value; }
     }
 
+    /// <summary>
+    /// The Type of the Polygon. Defines whether a Polygon is an obstacle.
+    /// </summary>
     public PolygonType Type
     {
       get { return m_Type; }
       set { m_Type = value; }
     }
 
+    /// <summary>
+    /// First Point of the Polygon
+    /// </summary>
     public Vertice Vertice0
     {
       get { return m_Vertice0; }
       set { m_Vertice0 = value; }
     }
 
+    /// <summary>
+    /// Second Point of the Polygon
+    /// </summary>
     public Vertice Vertice1
     {
       get { return m_Vertice1; }
       set { m_Vertice1 = value; }
     }
 
+    /// <summary>
+    /// Third Point of the Polygon
+    /// </summary>
     public Vertice Vertice2
     {
       get { return m_Vertice2; }
-      set
-      { m_Vertice2 = value; }
+      set { m_Vertice2 = value; }
     }
 
     public Polygon()
@@ -82,6 +105,11 @@ namespace Pathfinder
       m_Vertice2 = v3;
     }
 
+    /// <summary>
+    /// determines whether the given Point is inside of the Polygon-Region
+    /// </summary>
+    /// <param name="p">the Point which is to be searched</param>
+    /// <returns>Returns true if the Point is inside</returns>
     public bool Contains(Point p)
     {
       bool result = false;
@@ -99,6 +127,12 @@ namespace Pathfinder
       return result;
     }
 
+    /// <summary>
+    /// compares 2 Polygons (same Vertices). 
+    /// Alternative: just compare the IDs.
+    /// </summary>
+    /// <param name="obj">the other Polygon</param>
+    /// <returns>Returns true when the object are the same</returns>
     public override bool Equals(object obj)
     {
       bool result = false;
@@ -121,6 +155,10 @@ namespace Pathfinder
       return result;
     }
 
+    /// <summary>
+    /// Calculates a centerpoint from current Algorithm
+    /// </summary>
+    /// <returns>The CenterPoint</returns>
     public Point GetCenter()
     {
       Point result;
@@ -144,6 +182,9 @@ namespace Pathfinder
       return result;
     }
 
+    /// <summary>
+    /// updates List of surrounding Neighbors
+    /// </summary>
     public void RefreshNeigbors()
     {
       List<Polygon> tempList = new List<Polygon>();
@@ -202,6 +243,11 @@ namespace Pathfinder
       return base.GetHashCode();
     }
 
+    /// <summary>
+    /// Calculatses Distance between Polygons. (using current center calculation algorithm)
+    /// </summary>
+    /// <param name="that">The other Polygon</param>
+    /// <returns>the Distance between the Polygons</returns>
     public int Distance(Polygon that)
     {
       int result = 0;

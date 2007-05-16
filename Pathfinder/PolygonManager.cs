@@ -5,6 +5,9 @@ using System.Drawing;
 
 namespace Pathfinder
 {
+  /// <summary>
+  /// Holds and Manages Vertices and Polygon Data
+  /// </summary>
   public class PolygonManager
   {
     private List<Vertice> m_VerticeList;
@@ -207,9 +210,9 @@ namespace Pathfinder
     }
 
     /// <summary>
-    /// 
+    /// Searches for the Polygon which contains the given point
     /// </summary>
-    /// <param name="pos"></param>
+    /// <param name="pos">the Point at which position the polygon should be</param>
     /// <returns>null if not found</returns>
     public Polygon FindPolygon(Point pos)
     {
@@ -227,10 +230,18 @@ namespace Pathfinder
       return result;
     }
 
+    /// <summary>
+    /// builds Net from Pointlist
+    /// </summary>
+    /// <param name="points">the Pointlist</param>
     public void AutoAddPointList(Point[] points)
     {
       AutoAddPointList(new List<Point>(points));
     }
+    /// <summary>
+    /// builds Net from Pointlist
+    /// </summary>
+    /// <param name="points">the pointlist</param>
     public void AutoAddPointList(List<Point> points)
     {
       // sort for distance
