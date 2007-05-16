@@ -31,7 +31,8 @@ namespace ASternTest
       m_Manager = new PolygonManager();
       m_Pathfinder = new Pathfinder.Pathfinder(m_Manager);
 
-      m_Manager.DoTestData();
+      //m_Manager.DoTestData();
+      m_Manager.AddRectangle(new Rectangle(0,0, 64,64), PolygonType.normal, 64);
       btnDoPaint_Click(null, null);
     }
 

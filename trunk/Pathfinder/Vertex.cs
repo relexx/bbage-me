@@ -72,5 +72,25 @@ namespace Pathfinder
     {
       return base.GetHashCode();
     }
+
+    public int Distance(Vertex that)
+    {
+      int result = 0;
+
+      if (that != null)
+      {
+        Point thisP = this.Position;
+        Point thatP = that.Position;
+
+        double dx = Math.Abs(thisP.X - thatP.X);
+        double dy = Math.Abs(thisP.Y - thatP.Y);
+
+        double distance = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+
+        result = (int)Math.Floor(distance);
+      }
+
+      return result;
+    }
   }
 }
