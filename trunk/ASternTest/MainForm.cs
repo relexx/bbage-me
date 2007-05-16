@@ -93,7 +93,9 @@ namespace ASternTest
           if (i + 1 < m_PathEntries.Count)
           {
             Point pathpoint2 = m_PathEntries[i + 1].EntryPolygon.GetCenter();
-            g.DrawLine(Pens.Black, pathpoint.X * m_Factor, pathpoint.Y * m_Factor, pathpoint2.X * m_Factor, pathpoint2.Y * m_Factor);
+            Pen pen = (Pen)Pens.Green.Clone();
+            pen.Width = 2;
+            g.DrawLine(pen, pathpoint.X * m_Factor, pathpoint.Y * m_Factor, pathpoint2.X * m_Factor, pathpoint2.Y * m_Factor);
           }
         }
       }

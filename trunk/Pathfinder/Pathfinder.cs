@@ -56,6 +56,7 @@ namespace Pathfinder
             lowestEntry = entry;
           }
         }
+        openlist.Clear();
 
         if (lowestEntry != null)
         {
