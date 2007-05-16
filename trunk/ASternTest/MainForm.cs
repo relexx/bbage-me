@@ -40,6 +40,15 @@ namespace ASternTest
       
     }
 
+    private void FindPath()
+    {
+      if (m_SelectedDestinationPolygon != null && m_SelectedSourcePolygon != null)
+      {
+        m_PathEntries = m_Pathfinder.FindPath(m_SelectedSourcePolygon, m_SelectedDestinationPolygon);
+        plTarget.Refresh();
+      }
+    }
+
     private void DoPaint(Graphics g)
     {
       foreach (Polygon p in m_Manager.PolygonList)
@@ -166,6 +175,7 @@ namespace ASternTest
           poly.Type = PolygonType.normal;
         }
       }
+      FindPath();
       plTarget.Refresh();
     }
 
@@ -190,11 +200,7 @@ namespace ASternTest
 
     private void btnFindPath_Click(object sender, EventArgs e)
     {
-      if (m_SelectedDestinationPolygon != null && m_SelectedSourcePolygon != null)
-      {
-        m_PathEntries = m_Pathfinder.FindPath(m_SelectedSourcePolygon, m_SelectedDestinationPolygon);
-        plTarget.Refresh();
-      }
+      FindPath();
     }
   }
 }
