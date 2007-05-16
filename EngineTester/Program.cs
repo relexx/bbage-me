@@ -15,6 +15,12 @@ namespace EngineTester
     static void Main()
     {
 
+#if DEBUG
+      // Prevent Visual Studio from hanging while debugging the DirectX application.
+      // sh: doesn't work. Fix: <CTRL+D, E> then Managed Debugging Assistants tree node and uncheck Loader Lock
+      //System.Threading.Thread.Sleep(100);
+#endif
+
       try
       {
         Application.EnableVisualStyles();
