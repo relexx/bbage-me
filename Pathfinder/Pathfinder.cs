@@ -65,7 +65,6 @@ namespace Pathfinder
             lowestEntry = entry;
           }
         }
-        openlist.Clear();
 
         if (lowestEntry != null)
         {
@@ -77,16 +76,17 @@ namespace Pathfinder
           {
             if (neighbor.Type == PolygonType.normal)
             {
-              bool addtoopenlist = true;
+              bool isInOpenList = true;
+              bool isInClosedList = true;
               PathEntry alreadyExistingEntryInOpenList;
-              addtoopenlist = !PolygonIsInList(openlist, neighbor, out alreadyExistingEntryInOpenList)
-                            && !PolygonIsInList(closedlist, neighbor);
+              isInOpenList = PolygonIsInList(openlist, neighbor, out alreadyExistingEntryInOpenList);
+              isInClosedList = PolygonIsInList(closedlist, neighbor);
 
-              if (addtoopenlist)
+              if (!isInOpenList && !isInClosedList)
               {
                 openlist.Add(new PathEntry(neighbor, lowestEntry, CalculateHeuristic(neighbor, dst)));
               }
-              else if (alreadyExistingEntryInOpenList != null)
+              else if (isInOpenList)
               {
                 int costToNeighbor = neighbor.Distance(lowestEntry.EntryPolygon) + lowestEntry.Cost;
                 if (costToNeighbor < alreadyExistingEntryInOpenList.Cost
@@ -101,7 +101,25 @@ namespace Pathfinder
       }
       while (lowestEntry != null && lowestEntry.EntryPolygon != dst);
 
-      return closedlist;
+      PathEntry lastEntry = closedlist[closedlist.Count - 1];
+      if (lastEntry.EntryPolygon == dst)
+      {
+        result.Add(lastEntry);
+        PathEntry predecessor = lastEntry.Predecessor;
+        while (predecessor != null)
+        {
+          if (result.Contains(predecessor)) { break; }
+          result.Add(predecessor);
+          predecessor = predecessor.Predecessor;
+        }
+        result.Reverse();
+      }
+      else
+      {
+        //Path not Found
+      }
+
+      return result;
     }
 
     private bool IsPredecessorOf(PathEntry p1, PathEntry p2)
@@ -169,6 +187,19 @@ namespace Pathfinder
     private int m_HeuristicCost;
     private Polygon m_EntryPolygon;
     private PathEntry m_Predecessor;
+
+    public int ID
+    {
+      get
+      {
+        int id = -1;
+        if (m_EntryPolygon != null)
+        {
+          id = m_EntryPolygon.ID;
+        }
+        return id;
+      }
+    }
 
     /// <summary>
     /// The Cost to get to this Point from the Source

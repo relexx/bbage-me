@@ -29,8 +29,6 @@ namespace Pathfinder
     {
       m_VertexList = new List<Vertex>();
       m_PolygonList = new List<Polygon>();
-
-      DoTestData();
     }
 
     /// <summary>
@@ -231,66 +229,19 @@ namespace Pathfinder
     }
 
     /// <summary>
-    /// builds Net from Pointlist
+    /// Searches for the Vertex at the given point
     /// </summary>
-    /// <param name="points">the Pointlist</param>
-    public void AutoAddPointList(Point[] points)
+    /// <param name="pos">the Point at which position the Vertex should be</param>
+    /// <returns>null if not found</returns>
+    public Vertex FindVertex(Point pos)
     {
-      AutoAddPointList(new List<Point>(points));
-    }
-    /// <summary>
-    /// builds Net from Pointlist
-    /// </summary>
-    /// <param name="points">the pointlist</param>
-    public void AutoAddPointList(List<Point> points)
-    {
-      // sort for distance
+      Vertex result = null;
 
-      // connect each point with each other
-      List<Connection> connections = new List<Connection>();
-      for (int i = 0; i < points.Count; i++)
+      foreach (Vertex vert in m_VertexList)
       {
-        for (int j = 0; j < points.Count; j++)
+        if (vert.Position.Equals(pos))
         {
-          Connection con = new Connection(points[i], points[j]);
-          if (ConnectionCrosses(connections, con))
-          {
-            connections.Add(con);
-          }
-        }
-      }
-      /*
-
-      // do polygons
-      List<Point> tripple = new List<Point>();
-      for (int i = 0; i < points.Count; i++)
-			{
-        tripple.Add(points[i]);
-        
-        if (tripple.Count >= 3)
-        {
-          Polygon polygon = new Polygon();
-          polygon.Vertice0 = new Vertice(tripple[0], polygon);
-          polygon.Vertice1 = new Vertice(tripple[0], polygon);
-          polygon.Vertice2 = new Vertice(tripple[0], polygon);
-
-          m_VerticeList.Add(Vertice0);
-          m_VerticeList.Add(Vertice1);
-          m_VerticeList.Add(Vertice2);
-          m_PolygonList.Add(polygon);
-        }
-      }*/
-    }
-
-    private bool ConnectionCrosses(List<Connection> connections, Connection connection)
-    {
-      bool result = false;
-
-      for (int i = 0; i < connections.Count; i++)
-      {
-        if (connections[i].Crosses(connection))
-        {
-          result = true;
+          result = vert;
           break;
         }
       }
@@ -298,26 +249,120 @@ namespace Pathfinder
       return result;
     }
 
-    private class Connection
-	  {
-      private Point m_P1;
-      private Point m_P2;
+    /// <summary>
+    /// Builds Polygons from a Rectangle
+    /// </summary>
+    /// <param name="rect">the Rectangle</param>
+    /// <param name="type">the Type of the Polygons</param>
+    /// <param name="polygons">the number of Polygons min 2</param>
+    public void AddRectangle(Rectangle rect, PolygonType type, int polygons)
+    {
+      //the 4 corners
+      Vertex va = new Vertex(new Point(rect.X, rect.Y));
+      Vertex vb = new Vertex(new Point(rect.X + rect.Width, rect.Y));
+      Vertex vc = new Vertex(new Point(rect.X, rect.Y + rect.Height));
+      Vertex vd = new Vertex(new Point(rect.X + rect.Width, rect.Y + rect.Height));
+      Polygon p1 = new Polygon(va, vc, vd);
+      Polygon p2 = new Polygon(va, vb, vd);
+      p1.Type = type;
+      p2.Type = type;
+      va.CurrentPolygonList.Add(p1);
+      vc.CurrentPolygonList.Add(p1);
+      vd.CurrentPolygonList.Add(p1);
+      va.CurrentPolygonList.Add(p2);
+      vb.CurrentPolygonList.Add(p2);
+      vd.CurrentPolygonList.Add(p2);
+      m_PolygonList.Add(p1);
+      m_PolygonList.Add(p2);
+      m_VertexList.Add(va);
+      m_VertexList.Add(vb);
+      m_VertexList.Add(vc);
+      m_VertexList.Add(vd);
 
-      public Connection(Point p1, Point p2)
+      polygons -= 2;
+
+      // 2
+      Queue<Polygon> templist = new Queue<Polygon>();
+      templist.Enqueue(p1);
+      templist.Enqueue(p2);
+      while (polygons > 0)
       {
-        m_P1 = p1;
-        m_P2 = p2;
-      }
+        Polygon p = templist.Dequeue();
 
-      public bool Crosses(Connection that)
+        Polygon p_new;
+        Vertex v_new;
+        SplitPolygon(p, out p_new, out v_new);
+        p_new.Type = type;
+        m_PolygonList.Add(p_new);
+        m_VertexList.Add(v_new);
+
+        templist.Enqueue(p_new);
+        templist.Enqueue(p);
+        polygons -=1;
+      }
+    }
+
+    public void SplitPolygon(Polygon polygon, out Polygon p_new, out Vertex v_new)
+    {
+      p_new = null;
+      v_new = null;
+
+      if (polygon != null)
       {
-        bool result = false;
+        //find longest edge (put them between v1 and v2)
+        Vertex v1;
+        Vertex v2;
+        Vertex v3;
 
-        double dx = Math.Abs( this.m_P1.X - that.m_P1.X );
-        // 
+        int d_0_1 = polygon.Vertex0.Distance(polygon.Vertex1);
+        int d_1_2 = polygon.Vertex1.Distance(polygon.Vertex2);
+        int d_2_0 = polygon.Vertex2.Distance(polygon.Vertex0);
 
-        return result;
+        if (d_0_1 >= d_1_2 && d_0_1 >= d_2_0)
+        {
+          v1 = polygon.Vertex0;
+          v2 = polygon.Vertex1;
+          v3 = polygon.Vertex2;
+        }
+        else if (d_1_2 >= d_0_1 && d_1_2 >= d_2_0)
+        {
+          v1 = polygon.Vertex1;
+          v2 = polygon.Vertex2;
+          v3 = polygon.Vertex0;
+        }
+        else
+        {
+          v1 = polygon.Vertex2;
+          v2 = polygon.Vertex0;
+          v3 = polygon.Vertex1;
+        }
+
+        //get Point in Middle
+        int dx = (v2.Position.X - v1.Position.X) / 2;
+        int dy = (v2.Position.Y - v1.Position.Y) / 2;
+        Point v_new_pos = new Point(v1.Position.X + dx, v1.Position.Y + dy);
+        Vertex v_alreadyExists = FindVertex(v_new_pos);
+        if (v_alreadyExists == null)
+        {
+          v_new = new Vertex(v_new_pos);
+        }
+        else
+        {
+          v_new = v_alreadyExists;
+        }
+
+        polygon.Vertex0 = v1;
+        polygon.Vertex1 = v_new;
+        polygon.Vertex2 = v3;
+        v_new.CurrentPolygonList.Add(polygon);
+
+        v2.CurrentPolygonList.Remove(polygon);
+
+        p_new = new Polygon(v_new, v2, v3);
+        v_new.CurrentPolygonList.Add(p_new);
+        v3.CurrentPolygonList.Add(p_new);
+        v2.CurrentPolygonList.Add(p_new);
       }
-	  }
+    }
   }
 }
