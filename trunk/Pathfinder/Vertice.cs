@@ -5,17 +5,26 @@ using System.Drawing;
 
 namespace Pathfinder
 {
+  /// <summary>
+  /// A Point-like Stucture. 3 can build 1 Polygon
+  /// </summary>
   public class Vertice
   {
     private Point m_Position;
     private List<Polygon> m_PolygonList;
 
+    /// <summary>
+    /// The Position of the Vertice
+    /// </summary>
     public Point Position
     {
       get { return m_Position; }
       set { m_Position = value; }
     }
 
+    /// <summary>
+    /// The List of Polygon which contain this Vertice
+    /// </summary>
     public List<Polygon> CurrentPolygonList
     {
       get { return m_PolygonList; }
@@ -34,6 +43,11 @@ namespace Pathfinder
       m_Position = p;
     }
 
+    /// <summary>
+    /// compares 2 Vertices (same position)
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public override bool Equals(object obj)
     {
       bool result = false;
