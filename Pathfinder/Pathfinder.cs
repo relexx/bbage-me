@@ -83,7 +83,6 @@ namespace Pathfinder
                   && !IsPredecessorOf(alreadyExistingEntryInOpenList, lowestEntry))
                 {
                   alreadyExistingEntryInOpenList.Predecessor = lowestEntry;
-                  alreadyExistingEntryInOpenList.CalculateCost();
                 }
               }
             }
@@ -154,15 +153,21 @@ namespace Pathfinder
 
   public class PathEntry
   {
-    private int m_CostFromLastEntry;
     private int m_HeuristicCost;
     private Polygon m_EntryPolygon;
     private PathEntry m_Predecessor;
 
     public int Cost
     {
-      get { return m_CostFromLastEntry; }
-      set { m_CostFromLastEntry = value; }
+      get
+      {
+        int result = -1;
+        if (m_Predecessor != null)
+        {
+          result = m_EntryPolygon.Distance(m_Predecessor.EntryPolygon) + m_Predecessor.Cost;
+        }
+        return result;
+      }
     }
 
     public int HeuristicCost
@@ -187,7 +192,7 @@ namespace Pathfinder
     {
       get
       {
-        return m_CostFromLastEntry + m_HeuristicCost;
+        return Cost + m_HeuristicCost;
       }
     }
 
@@ -196,26 +201,6 @@ namespace Pathfinder
       m_EntryPolygon = entrypolygon;
       m_HeuristicCost = heuristiccost;
       m_Predecessor = predecessor;
-      CalculateCost();
-    }
-
-    public void CalculateCost()
-    {
-      if (m_Predecessor != null)
-      {
-        m_CostFromLastEntry = m_EntryPolygon.Distance(m_Predecessor.EntryPolygon);
-
-        PathEntry prePredecessor = m_Predecessor.Predecessor;
-        while (prePredecessor != null)
-        {
-          m_CostFromLastEntry += prePredecessor.m_CostFromLastEntry;
-          prePredecessor = prePredecessor.m_Predecessor;
-        }
-      }
-      else
-      {
-        m_CostFromLastEntry = 0;
-      }
     }
   }
 }

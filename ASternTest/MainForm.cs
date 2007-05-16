@@ -84,7 +84,7 @@ namespace ASternTest
           Point pathpoint = pathpolygon.GetCenter();
           Point p = new Point( pathpoint.X * m_Factor - pointwidth / 2, pathpoint.Y * m_Factor - pointwidth / 2);
           g.FillPie(Brushes.Black, new Rectangle(p.X, p.Y, pointwidth, pointwidth), 0, 360);
-          string data = "Cost: "+m_PathEntries[i].Cost;
+          string data = "G: "+m_PathEntries[i].Cost+"\nH: "+m_PathEntries[i].HeuristicCost;
           Font f = new Font(FontFamily.GenericSerif, 12f);
           SizeF s = g.MeasureString(data, f);
           g.FillRectangle(Brushes.White, new Rectangle((int)p.X, (int)p.Y, (int)s.Width+2, (int)s.Height+2));
