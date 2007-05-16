@@ -8,7 +8,7 @@ namespace Pathfinder
   /// <summary>
   /// A Point-like Stucture. 3 can build 1 Polygon
   /// </summary>
-  public class Vertice
+  public class Vertex
   {
     private Point m_Position;
     private List<Polygon> m_PolygonList;
@@ -31,13 +31,13 @@ namespace Pathfinder
       set { m_PolygonList = value; }
     }
 
-    public Vertice()
+    public Vertex()
     {
       m_Position = Point.Empty;
       m_PolygonList = new List<Polygon>();
     }
 
-    public Vertice(Point p)
+    public Vertex(Point p)
       :this()
     {
       m_Position = p;
@@ -51,8 +51,8 @@ namespace Pathfinder
     public override bool Equals(object obj)
     {
       bool result = false;
-      Vertice v1 = this;
-      Vertice v2 = obj as Vertice;
+      Vertex v1 = this;
+      Vertex v2 = obj as Vertex;
 
       if (v1 == null && v1 != null
         || v1 != null && v1 == null)

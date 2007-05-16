@@ -10,7 +10,7 @@ namespace Pathfinder
   /// </summary>
   public class PolygonManager
   {
-    private List<Vertice> m_VerticeList;
+    private List<Vertex> m_VertexList;
     private List<Polygon> m_PolygonList;
 
     public List<Polygon> PolygonList
@@ -19,15 +19,15 @@ namespace Pathfinder
       set { m_PolygonList = value; }
     }
 
-    public List<Vertice> VerticeList
+    public List<Vertex> VertexList
     {
-      get { return m_VerticeList; }
-      set { m_VerticeList = value; }
+      get { return m_VertexList; }
+      set { m_VertexList = value; }
     }
 
     public PolygonManager()
     {
-      m_VerticeList = new List<Vertice>();
+      m_VertexList = new List<Vertex>();
       m_PolygonList = new List<Polygon>();
 
       DoTestData();
@@ -74,109 +74,109 @@ namespace Pathfinder
       Polygon p12 = new Polygon();
       Polygon p13 = new Polygon();
 
-      Vertice v01 = new Vertice(new Point( 2, 1 ));
-      Vertice v02 = new Vertice(new Point(11, 2 ));
-      Vertice v03 = new Vertice(new Point( 2, 5 ));
+      Vertex v01 = new Vertex(new Point( 2, 1 ));
+      Vertex v02 = new Vertex(new Point(11, 2 ));
+      Vertex v03 = new Vertex(new Point( 2, 5 ));
 
-      Vertice v04 = new Vertice(new Point(20, 5 ));
-      Vertice v05 = new Vertice(new Point(11, 7 ));
-      Vertice v06 = new Vertice(new Point(17, 10));
+      Vertex v04 = new Vertex(new Point(20, 5 ));
+      Vertex v05 = new Vertex(new Point(11, 7 ));
+      Vertex v06 = new Vertex(new Point(17, 10));
 
-      Vertice v07 = new Vertice(new Point( 4, 11));
-      Vertice v08 = new Vertice(new Point( 7, 13));
-      Vertice v09 = new Vertice(new Point(19, 14));
+      Vertex v07 = new Vertex(new Point( 4, 11));
+      Vertex v08 = new Vertex(new Point( 7, 13));
+      Vertex v09 = new Vertex(new Point(19, 14));
 
-      Vertice v10 = new Vertice(new Point(13, 16));
-      Vertice v11 = new Vertice(new Point(22, 17));
-      Vertice v12 = new Vertice(new Point( 3, 18));
+      Vertex v10 = new Vertex(new Point(13, 16));
+      Vertex v11 = new Vertex(new Point(22, 17));
+      Vertex v12 = new Vertex(new Point( 3, 18));
       
-      p01.Vertice0 = v01;
-      p01.Vertice1 = v02;
-      p01.Vertice2 = v03;
+      p01.Vertex0 = v01;
+      p01.Vertex1 = v02;
+      p01.Vertex2 = v03;
       v01.CurrentPolygonList.Add(p01);
       v02.CurrentPolygonList.Add(p01);
       v03.CurrentPolygonList.Add(p01);
 
-      p02.Vertice0 = v02;
-      p02.Vertice1 = v03;
-      p02.Vertice2 = v04;
+      p02.Vertex0 = v02;
+      p02.Vertex1 = v03;
+      p02.Vertex2 = v04;
       v02.CurrentPolygonList.Add(p02);
       v03.CurrentPolygonList.Add(p02);
       v04.CurrentPolygonList.Add(p02);
 
-      p03.Vertice0 = v03;
-      p03.Vertice1 = v04;
-      p03.Vertice2 = v05;
+      p03.Vertex0 = v03;
+      p03.Vertex1 = v04;
+      p03.Vertex2 = v05;
       v03.CurrentPolygonList.Add(p03);
       v04.CurrentPolygonList.Add(p03);
       v05.CurrentPolygonList.Add(p03);
 
-      p04.Vertice0 = v04;
-      p04.Vertice1 = v05;
-      p04.Vertice2 = v06;
+      p04.Vertex0 = v04;
+      p04.Vertex1 = v05;
+      p04.Vertex2 = v06;
       v04.CurrentPolygonList.Add(p04);
       v05.CurrentPolygonList.Add(p04);
       v06.CurrentPolygonList.Add(p04);
 
-      p05.Vertice0 = v03;
-      p05.Vertice1 = v05;
-      p05.Vertice2 = v07;
+      p05.Vertex0 = v03;
+      p05.Vertex1 = v05;
+      p05.Vertex2 = v07;
       v03.CurrentPolygonList.Add(p05);
       v05.CurrentPolygonList.Add(p05);
       v07.CurrentPolygonList.Add(p05);
 
-      p06.Vertice0 = v05;
-      p06.Vertice1 = v06;
-      p06.Vertice2 = v07;
+      p06.Vertex0 = v05;
+      p06.Vertex1 = v06;
+      p06.Vertex2 = v07;
       v05.CurrentPolygonList.Add(p06);
       v06.CurrentPolygonList.Add(p06);
       v07.CurrentPolygonList.Add(p06);
 
-      p07.Vertice0 = v06;
-      p07.Vertice1 = v07;
-      p07.Vertice2 = v08;
+      p07.Vertex0 = v06;
+      p07.Vertex1 = v07;
+      p07.Vertex2 = v08;
       v06.CurrentPolygonList.Add(p07);
       v07.CurrentPolygonList.Add(p07);
       v08.CurrentPolygonList.Add(p07);
 
-      p08.Vertice0 = v06;
-      p08.Vertice1 = v08;
-      p08.Vertice2 = v09;
+      p08.Vertex0 = v06;
+      p08.Vertex1 = v08;
+      p08.Vertex2 = v09;
       v06.CurrentPolygonList.Add(p08);
       v08.CurrentPolygonList.Add(p08);
       v09.CurrentPolygonList.Add(p08);
 
-      p09.Vertice0 = v07;
-      p09.Vertice1 = v08;
-      p09.Vertice2 = v12;
+      p09.Vertex0 = v07;
+      p09.Vertex1 = v08;
+      p09.Vertex2 = v12;
       v07.CurrentPolygonList.Add(p09);
       v08.CurrentPolygonList.Add(p09);
       v12.CurrentPolygonList.Add(p09);
 
-      p10.Vertice0 = v08;
-      p10.Vertice1 = v09;
-      p10.Vertice2 = v10;
+      p10.Vertex0 = v08;
+      p10.Vertex1 = v09;
+      p10.Vertex2 = v10;
       v08.CurrentPolygonList.Add(p10);
       v09.CurrentPolygonList.Add(p10);
       v10.CurrentPolygonList.Add(p10);
 
-      p11.Vertice0 = v08;
-      p11.Vertice1 = v10;
-      p11.Vertice2 = v12;
+      p11.Vertex0 = v08;
+      p11.Vertex1 = v10;
+      p11.Vertex2 = v12;
       v08.CurrentPolygonList.Add(p11);
       v10.CurrentPolygonList.Add(p11);
       v12.CurrentPolygonList.Add(p11);
 
-      p12.Vertice0 = v09;
-      p12.Vertice1 = v10;
-      p12.Vertice2 = v11;
+      p12.Vertex0 = v09;
+      p12.Vertex1 = v10;
+      p12.Vertex2 = v11;
       v09.CurrentPolygonList.Add(p12);
       v10.CurrentPolygonList.Add(p12);
       v11.CurrentPolygonList.Add(p12);
 
-      p13.Vertice0 = v10;
-      p13.Vertice1 = v11;
-      p13.Vertice2 = v12;
+      p13.Vertex0 = v10;
+      p13.Vertex1 = v11;
+      p13.Vertex2 = v12;
       v10.CurrentPolygonList.Add(p13);
       v11.CurrentPolygonList.Add(p13);
       v12.CurrentPolygonList.Add(p13);
@@ -195,18 +195,18 @@ namespace Pathfinder
       m_PolygonList.Add(p12);
       m_PolygonList.Add(p13);
 
-      m_VerticeList.Add(v01);
-      m_VerticeList.Add(v02);
-      m_VerticeList.Add(v03);
-      m_VerticeList.Add(v04);
-      m_VerticeList.Add(v05);
-      m_VerticeList.Add(v06);
-      m_VerticeList.Add(v07);
-      m_VerticeList.Add(v08);
-      m_VerticeList.Add(v09);
-      m_VerticeList.Add(v10);
-      m_VerticeList.Add(v11);
-      m_VerticeList.Add(v12);
+      m_VertexList.Add(v01);
+      m_VertexList.Add(v02);
+      m_VertexList.Add(v03);
+      m_VertexList.Add(v04);
+      m_VertexList.Add(v05);
+      m_VertexList.Add(v06);
+      m_VertexList.Add(v07);
+      m_VertexList.Add(v08);
+      m_VertexList.Add(v09);
+      m_VertexList.Add(v10);
+      m_VertexList.Add(v11);
+      m_VertexList.Add(v12);
     }
 
     /// <summary>
