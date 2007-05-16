@@ -5,6 +5,9 @@ using System.Drawing;
 
 namespace Pathfinder
 {
+  /// <summary>
+  /// An implementation of the A* Algorithm
+  /// </summary>
   public class Pathfinder
   {
     private PolygonManager m_PolygonManager;
@@ -18,6 +21,12 @@ namespace Pathfinder
       m_PolygonManager = manager;
     }
 
+    /// <summary>
+    /// Finds a short Path between 2 given Polygons
+    /// </summary>
+    /// <param name="src">the Source Polygon</param>
+    /// <param name="dst">the Destination Polygon</param>
+    /// <returns>A List of PathEntries which, if possible, contain a short Path</returns>
     public List<PathEntry> FindPath(Polygon src, Polygon dst)
     {
       List<PathEntry> result = new List<PathEntry>();
@@ -152,12 +161,18 @@ namespace Pathfinder
     }
   }
 
+  /// <summary>
+  /// A single Point on the found Path
+  /// </summary>
   public class PathEntry
   {
     private int m_HeuristicCost;
     private Polygon m_EntryPolygon;
     private PathEntry m_Predecessor;
 
+    /// <summary>
+    /// The Cost to get to this Point from the Source
+    /// </summary>
     public int Cost
     {
       get
@@ -171,24 +186,36 @@ namespace Pathfinder
       }
     }
 
+    /// <summary>
+    /// The approximated distance to the destination.
+    /// </summary>
     public int HeuristicCost
     {
       get { return m_HeuristicCost; }
       set { m_HeuristicCost = value; }
     }
 
+    /// <summary>
+    /// the actual Polygon
+    /// </summary>
     public Polygon EntryPolygon
     {
       get { return m_EntryPolygon; }
       set { m_EntryPolygon = value; }
     }
 
+    /// <summary>
+    /// the Polygon lying on the Path before this one
+    /// </summary>
     public PathEntry Predecessor
     {
       get { return m_Predecessor; }
       set { m_Predecessor = value; }
     }
 
+    /// <summary>
+    /// Cost + Heuristic Cost
+    /// </summary>
     public int OverallCost
     {
       get
