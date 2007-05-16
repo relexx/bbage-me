@@ -162,6 +162,7 @@ namespace ASternTest
         {
           m_SelectedSourcePolygon = null;
           m_SelectedDestinationPolygon = null;
+          m_PathEntries.Clear();
         }
       }
       else if (poly != null)
