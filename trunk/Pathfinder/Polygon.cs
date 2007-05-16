@@ -8,12 +8,20 @@ namespace Pathfinder
 {
   public class Polygon
   {
+    private static int s_IdCounter = 0;
+    private int id;
+
     private Vertice m_Vertice0;
     private Vertice m_Vertice1;
     private Vertice m_Vertice2;
     private PolygonType m_Type;
     private PolygonCenterType m_CenterType;
     private List<Polygon> m_Neighbors;
+
+    public int ID
+    {
+      get { return id; }
+    }
 
     public List<Polygon> Neighbors
     {
@@ -36,23 +44,26 @@ namespace Pathfinder
     public Vertice Vertice0
     {
       get { return m_Vertice0; }
-      set { m_Vertice0 = value; RefreshNeigbors(); }
+      set { m_Vertice0 = value; }
     }
 
     public Vertice Vertice1
     {
       get { return m_Vertice1; }
-      set { m_Vertice1 = value; RefreshNeigbors(); }
+      set { m_Vertice1 = value; }
     }
 
     public Vertice Vertice2
     {
       get { return m_Vertice2; }
-      set { m_Vertice2 = value; RefreshNeigbors(); }
+      set
+      { m_Vertice2 = value; }
     }
 
     public Polygon()
     {
+      id = s_IdCounter++;
+
       m_Neighbors = new List<Polygon>();
 
       m_Vertice0 = new Vertice();
@@ -69,8 +80,6 @@ namespace Pathfinder
       m_Vertice0 = v1;
       m_Vertice1 = v2;
       m_Vertice2 = v3;
-
-      RefreshNeigbors();
     }
 
     public bool Contains(Point p)
@@ -137,20 +146,52 @@ namespace Pathfinder
 
     public void RefreshNeigbors()
     {
-      AddNeighborsFromVertice(m_Vertice0);
-      AddNeighborsFromVertice(m_Vertice1);
-      AddNeighborsFromVertice(m_Vertice2);
-    }
-
-    private void AddNeighborsFromVertice(Vertice v)
-    {
-      if (v != null)
+      List<Polygon> tempList = new List<Polygon>();
+      if (m_Vertice0 != null)
       {
-        foreach (Polygon p in v.PolygonList)
+        foreach (Polygon p in m_Vertice0.CurrentPolygonList)
         {
-          if (!m_Neighbors.Contains(p))
+          if (!tempList.Contains(p))
           {
-            m_Neighbors.Add(p);
+            tempList.Add(p);
+          }
+        }
+      }
+
+      if (m_Vertice1 != null)
+      {
+        foreach (Polygon p in m_Vertice1.CurrentPolygonList)
+        {
+          if (p != this)
+          {
+            if (tempList.Contains(p))
+            {
+              m_Neighbors.Add(p);
+              tempList.Remove(p);
+            }
+            else
+            {
+              tempList.Add(p);
+            }
+          }
+        }
+      }
+
+      if (m_Vertice2 != null)
+      {
+        foreach (Polygon p in m_Vertice2.CurrentPolygonList)
+        {
+          if (p != this)
+          {
+            if (tempList.Contains(p))
+            {
+              m_Neighbors.Add(p);
+              tempList.Remove(p);
+            }
+            else
+            {
+              tempList.Add(p);
+            }
           }
         }
       }

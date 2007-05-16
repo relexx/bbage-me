@@ -16,7 +16,7 @@ namespace ASternTest
     private Pathfinder.Pathfinder m_Pathfinder;
     private Polygon m_SelectedSourcePolygon;
     private Polygon m_SelectedDestinationPolygon;
-    private Polygon[] m_PathPolygons;
+    private List<PathEntry> m_PathEntries;
     private int m_Factor;
 
     public MainForm()
@@ -76,16 +76,23 @@ namespace ASternTest
         g.FillPie(Brushes.Red, v.Position.X * m_Factor - pointwidth / 2, v.Position.Y * m_Factor - pointwidth / 2, pointwidth, pointwidth, 0, 360);
       }
 
-      if (m_PathPolygons != null)
+      if (m_PathEntries != null)
       {
-        for (int i = 0; i < m_PathPolygons.Length; i++)
+        for (int i = 0; i < m_PathEntries.Count; i++)
 			  {
-          Point pathpoint = m_PathPolygons[i].GetCenter();
-          g.FillPie(Brushes.Black, new Rectangle(pathpoint.X * m_Factor - pointwidth / 2, pathpoint.Y * m_Factor - pointwidth / 2, pointwidth, pointwidth), 0, 360);
+          Polygon pathpolygon = m_PathEntries[i].EntryPolygon;
+          Point pathpoint = pathpolygon.GetCenter();
+          Point p = new Point( pathpoint.X * m_Factor - pointwidth / 2, pathpoint.Y * m_Factor - pointwidth / 2);
+          g.FillPie(Brushes.Black, new Rectangle(p.X, p.Y, pointwidth, pointwidth), 0, 360);
+          string data = "Cost: "+m_PathEntries[i].Cost;
+          Font f = new Font(FontFamily.GenericSerif, 12f);
+          SizeF s = g.MeasureString(data, f);
+          g.FillRectangle(Brushes.White, new Rectangle((int)p.X, (int)p.Y, (int)s.Width+2, (int)s.Height+2));
+          g.DrawString(data, f, Brushes.Black, p.X + 1, p.Y + 1);
 
-          if (i + 1 < m_PathPolygons.Length)
+          if (i + 1 < m_PathEntries.Count)
           {
-            Point pathpoint2 = m_PathPolygons[i + 1].GetCenter();
+            Point pathpoint2 = m_PathEntries[i + 1].EntryPolygon.GetCenter();
             g.DrawLine(Pens.Black, pathpoint.X * m_Factor, pathpoint.Y * m_Factor, pathpoint2.X * m_Factor, pathpoint2.Y * m_Factor);
           }
         }
@@ -126,11 +133,19 @@ namespace ASternTest
       {
         if (poly != null)
         {
-          if (m_SelectedSourcePolygon != null)
+          if (m_SelectedSourcePolygon == null)
           {
-            m_SelectedDestinationPolygon = m_SelectedSourcePolygon;
+            m_SelectedSourcePolygon = poly;
           }
-          m_SelectedSourcePolygon = poly;
+          else if (m_SelectedDestinationPolygon == null)
+          {
+            m_SelectedDestinationPolygon = poly;
+          }
+          else
+          {
+            m_SelectedSourcePolygon = m_SelectedDestinationPolygon;
+            m_SelectedDestinationPolygon = poly;
+          }
         }
         else
         {
@@ -158,6 +173,7 @@ namespace ASternTest
       {
         poly.Type = PolygonType.normal;
       }
+      m_PathEntries.Clear();
       m_SelectedDestinationPolygon = null;
       m_SelectedSourcePolygon = null;
       plTarget.Refresh();
@@ -174,7 +190,7 @@ namespace ASternTest
     {
       if (m_SelectedDestinationPolygon != null && m_SelectedSourcePolygon != null)
       {
-        m_PathPolygons = m_Pathfinder.FindPath(m_SelectedSourcePolygon, m_SelectedDestinationPolygon);
+        m_PathEntries = m_Pathfinder.FindPath(m_SelectedSourcePolygon, m_SelectedDestinationPolygon);
         plTarget.Refresh();
       }
     }

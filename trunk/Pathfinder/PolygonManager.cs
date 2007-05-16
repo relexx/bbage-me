@@ -90,93 +90,93 @@ namespace Pathfinder
       p01.Vertice0 = v01;
       p01.Vertice1 = v02;
       p01.Vertice2 = v03;
-      v01.PolygonList.Add(p01);
-      v02.PolygonList.Add(p01);
-      v03.PolygonList.Add(p01);
+      v01.CurrentPolygonList.Add(p01);
+      v02.CurrentPolygonList.Add(p01);
+      v03.CurrentPolygonList.Add(p01);
 
       p02.Vertice0 = v02;
       p02.Vertice1 = v03;
       p02.Vertice2 = v04;
-      v02.PolygonList.Add(p02);
-      v03.PolygonList.Add(p02);
-      v04.PolygonList.Add(p02);
+      v02.CurrentPolygonList.Add(p02);
+      v03.CurrentPolygonList.Add(p02);
+      v04.CurrentPolygonList.Add(p02);
 
       p03.Vertice0 = v03;
       p03.Vertice1 = v04;
       p03.Vertice2 = v05;
-      v03.PolygonList.Add(p03);
-      v04.PolygonList.Add(p03);
-      v05.PolygonList.Add(p03);
+      v03.CurrentPolygonList.Add(p03);
+      v04.CurrentPolygonList.Add(p03);
+      v05.CurrentPolygonList.Add(p03);
 
       p04.Vertice0 = v04;
       p04.Vertice1 = v05;
       p04.Vertice2 = v06;
-      v04.PolygonList.Add(p04);
-      v05.PolygonList.Add(p04);
-      v06.PolygonList.Add(p04);
+      v04.CurrentPolygonList.Add(p04);
+      v05.CurrentPolygonList.Add(p04);
+      v06.CurrentPolygonList.Add(p04);
 
       p05.Vertice0 = v03;
       p05.Vertice1 = v05;
       p05.Vertice2 = v07;
-      v03.PolygonList.Add(p05);
-      v05.PolygonList.Add(p05);
-      v07.PolygonList.Add(p05);
+      v03.CurrentPolygonList.Add(p05);
+      v05.CurrentPolygonList.Add(p05);
+      v07.CurrentPolygonList.Add(p05);
 
       p06.Vertice0 = v05;
       p06.Vertice1 = v06;
       p06.Vertice2 = v07;
-      v05.PolygonList.Add(p06);
-      v06.PolygonList.Add(p06);
-      v07.PolygonList.Add(p06);
+      v05.CurrentPolygonList.Add(p06);
+      v06.CurrentPolygonList.Add(p06);
+      v07.CurrentPolygonList.Add(p06);
 
       p07.Vertice0 = v06;
       p07.Vertice1 = v07;
       p07.Vertice2 = v08;
-      v06.PolygonList.Add(p07);
-      v07.PolygonList.Add(p07);
-      v08.PolygonList.Add(p07);
+      v06.CurrentPolygonList.Add(p07);
+      v07.CurrentPolygonList.Add(p07);
+      v08.CurrentPolygonList.Add(p07);
 
       p08.Vertice0 = v06;
       p08.Vertice1 = v08;
       p08.Vertice2 = v09;
-      v06.PolygonList.Add(p08);
-      v08.PolygonList.Add(p08);
-      v09.PolygonList.Add(p08);
+      v06.CurrentPolygonList.Add(p08);
+      v08.CurrentPolygonList.Add(p08);
+      v09.CurrentPolygonList.Add(p08);
 
       p09.Vertice0 = v07;
       p09.Vertice1 = v08;
       p09.Vertice2 = v12;
-      v07.PolygonList.Add(p09);
-      v08.PolygonList.Add(p09);
-      v12.PolygonList.Add(p09);
+      v07.CurrentPolygonList.Add(p09);
+      v08.CurrentPolygonList.Add(p09);
+      v12.CurrentPolygonList.Add(p09);
 
       p10.Vertice0 = v08;
       p10.Vertice1 = v09;
       p10.Vertice2 = v10;
-      v08.PolygonList.Add(p10);
-      v09.PolygonList.Add(p10);
-      v10.PolygonList.Add(p10);
+      v08.CurrentPolygonList.Add(p10);
+      v09.CurrentPolygonList.Add(p10);
+      v10.CurrentPolygonList.Add(p10);
 
       p11.Vertice0 = v08;
       p11.Vertice1 = v10;
       p11.Vertice2 = v12;
-      v08.PolygonList.Add(p11);
-      v10.PolygonList.Add(p11);
-      v12.PolygonList.Add(p11);
+      v08.CurrentPolygonList.Add(p11);
+      v10.CurrentPolygonList.Add(p11);
+      v12.CurrentPolygonList.Add(p11);
 
       p12.Vertice0 = v09;
       p12.Vertice1 = v10;
       p12.Vertice2 = v11;
-      v09.PolygonList.Add(p12);
-      v10.PolygonList.Add(p12);
-      v11.PolygonList.Add(p12);
+      v09.CurrentPolygonList.Add(p12);
+      v10.CurrentPolygonList.Add(p12);
+      v11.CurrentPolygonList.Add(p12);
 
       p13.Vertice0 = v10;
       p13.Vertice1 = v11;
       p13.Vertice2 = v12;
-      v10.PolygonList.Add(p13);
-      v11.PolygonList.Add(p13);
-      v12.PolygonList.Add(p13);
+      v10.CurrentPolygonList.Add(p13);
+      v11.CurrentPolygonList.Add(p13);
+      v12.CurrentPolygonList.Add(p13);
 
       m_PolygonList.Add(p01);
       m_PolygonList.Add(p02);

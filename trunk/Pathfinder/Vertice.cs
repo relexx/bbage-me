@@ -16,7 +16,7 @@ namespace Pathfinder
       set { m_Position = value; }
     }
 
-    public List<Polygon> PolygonList
+    public List<Polygon> CurrentPolygonList
     {
       get { return m_PolygonList; }
       set { m_PolygonList = value; }
@@ -27,13 +27,14 @@ namespace Pathfinder
       m_Position = Point.Empty;
       m_PolygonList = new List<Polygon>();
     }
+
     public Vertice(Point p)
       :this()
     {
       m_Position = p;
     }
 
-    public override bool  Equals(object obj)
+    public override bool Equals(object obj)
     {
       bool result = false;
       Vertice v1 = this;

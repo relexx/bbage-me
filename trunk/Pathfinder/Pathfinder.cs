@@ -18,68 +18,128 @@ namespace Pathfinder
       m_PolygonManager = manager;
     }
 
-    public Polygon[] FindPath(Polygon src, Polygon dst)
+    public List<PathEntry> FindPath(Polygon src, Polygon dst)
     {
-      List<Polygon> result = new List<Polygon>();
+      List<PathEntry> result = new List<PathEntry>();
       List<PathEntry> openlist = new List<PathEntry>();
       List<PathEntry> closedlist = new List<PathEntry>();
 
       //result = new List<Polygon>( new Polygon[] { m_PolygonManager.PolygonList[0], m_PolygonManager.PolygonList[1], m_PolygonManager.PolygonList[2], m_PolygonManager.PolygonList[3], m_PolygonManager.PolygonList[4] });
       PathEntry SrcEntry = new PathEntry(src, null, CalculateHeuristic(src, dst));
       closedlist.Add(SrcEntry);
+      src.RefreshNeigbors();
 
       foreach (Polygon neighbor in src.Neighbors)
       {
         if (neighbor.Type == PolygonType.normal)
         {
-          openlist.Add(new PathEntry(neighbor, SrcEntry, CalculateHeuristic(neighbor, dst)));
+          if (!PolygonIsInList(closedlist, neighbor))
+          {
+            openlist.Add(new PathEntry(neighbor, SrcEntry, CalculateHeuristic(neighbor, dst)));
+          }
         }
       }
 
       // get lowest OverallCost Value
       PathEntry lowestEntry = null;
-      foreach (PathEntry entry in openlist)
+      do
       {
-        if (lowestEntry == null)
+        lowestEntry = null;
+        foreach (PathEntry entry in openlist)
         {
-          lowestEntry = entry;
-        }
-        else if (entry.OverallCost < lowestEntry.OverallCost)
-        {
-          lowestEntry = entry;
-        }
-      }
-
-      if (lowestEntry != null)
-      {
-        foreach (Polygon neighbor in lowestEntry.EntryPolygon.Neighbors)
-        {
-          if (neighbor.Type == PolygonType.normal)
+          if (lowestEntry == null)
           {
-            bool containsNeighbor = false;
-            foreach (PathEntry pe in openlist)
+            lowestEntry = entry;
+          }
+          else if (entry.OverallCost < lowestEntry.OverallCost)
+          {
+            lowestEntry = entry;
+          }
+        }
+
+        if (lowestEntry != null)
+        {
+          openlist.Remove(lowestEntry);
+          closedlist.Add(lowestEntry);
+
+          lowestEntry.EntryPolygon.RefreshNeigbors();
+          foreach (Polygon neighbor in lowestEntry.EntryPolygon.Neighbors)
+          {
+            if (neighbor.Type == PolygonType.normal)
             {
-              if (pe.EntryPolygon == neighbor)
+              bool addtoopenlist = true;
+              PathEntry alreadyExistingEntryInOpenList;
+              addtoopenlist = !PolygonIsInList(openlist, neighbor, out alreadyExistingEntryInOpenList)
+                            && !PolygonIsInList(closedlist, neighbor);
+
+              if (addtoopenlist)
               {
-                containsNeighbor = true;
-                break;
+                openlist.Add(new PathEntry(neighbor, lowestEntry, CalculateHeuristic(neighbor, dst)));
               }
-            }
-            if (!containsNeighbor)
-            {
-              openlist.Add(new PathEntry(neighbor, lowestEntry, CalculateHeuristic(neighbor, dst)));
-            }
-            else
-            {
-              //int costToNeighbor = neighbor.Distance(
-              /* check to see if this path to that square is a better one. In other words, check to see if the G score for that square is lower if we use the current square to get there. If not, don’t do anything. 
-    On the other hand, if the G cost of the new path is lower, change the parent of the adjacent square to the selected square (in the diagram above, change the direction of the pointer to point at the selected square). Finally, recalculate both the F and G scores of that square. If this seems confusing, you will see it illustrated below.*/
+              else if (alreadyExistingEntryInOpenList != null)
+              {
+                int costToNeighbor = neighbor.Distance(lowestEntry.EntryPolygon) + lowestEntry.Cost;
+                if (costToNeighbor < alreadyExistingEntryInOpenList.Cost
+                  && !IsPredecessorOf(alreadyExistingEntryInOpenList, lowestEntry))
+                {
+                  alreadyExistingEntryInOpenList.Predecessor = lowestEntry;
+                  alreadyExistingEntryInOpenList.CalculateCost();
+                }
+              }
             }
           }
         }
       }
+      while (lowestEntry != null && lowestEntry.EntryPolygon != dst);
 
-      return result.ToArray();
+      return closedlist;
+    }
+
+    private bool IsPredecessorOf(PathEntry p1, PathEntry p2)
+    {
+      bool result = false;
+
+      if (p1 == null) { return false; }
+      if (p2 == null) { return false; }
+      if (p1 == p2) { return false; }
+
+      PathEntry predecessor = p2.Predecessor;
+      while (predecessor != null)
+      {
+        if (p1 == predecessor)
+        {
+          result = true;
+          break;
+        }
+        predecessor = predecessor.Predecessor;
+      }
+
+      return result;
+    }
+    private bool PolygonIsInList(List<PathEntry> list, Polygon entry)
+    {
+      PathEntry foundentry;
+      return PolygonIsInList(list, entry, out foundentry);
+    }
+    private bool PolygonIsInList(List<PathEntry> list, Polygon entry, out PathEntry foundentry)
+    {
+      bool result = false;
+      foundentry = null;
+
+      if (entry != null)
+      {
+        foreach (PathEntry pe in list)
+        {
+          if (pe.EntryPolygon == entry)
+          {
+            foundentry = pe;
+            result = true;
+            break;
+          }
+        }
+      }
+
+      return result;
     }
 
     private int CalculateHeuristic(Polygon src, Polygon dst)
@@ -90,71 +150,71 @@ namespace Pathfinder
 
       return result;
     }
+  }
 
-    private class PathEntry
+  public class PathEntry
+  {
+    private int m_CostFromLastEntry;
+    private int m_HeuristicCost;
+    private Polygon m_EntryPolygon;
+    private PathEntry m_Predecessor;
+
+    public int Cost
     {
-      private int m_CostFromLastEntry;
-      private int m_HeuristicCost;
-      private Polygon m_EntryPolygon;
-      private PathEntry m_Predecessor;
+      get { return m_CostFromLastEntry; }
+      set { m_CostFromLastEntry = value; }
+    }
 
-      public int CostFromLastEntry
+    public int HeuristicCost
+    {
+      get { return m_HeuristicCost; }
+      set { m_HeuristicCost = value; }
+    }
+
+    public Polygon EntryPolygon
+    {
+      get { return m_EntryPolygon; }
+      set { m_EntryPolygon = value; }
+    }
+
+    public PathEntry Predecessor
+    {
+      get { return m_Predecessor; }
+      set { m_Predecessor = value; }
+    }
+
+    public int OverallCost
+    {
+      get
       {
-        get { return m_CostFromLastEntry; }
-        set { m_CostFromLastEntry = value; }
+        return m_CostFromLastEntry + m_HeuristicCost;
       }
+    }
 
-      public int HeuristicCost
-      {
-        get { return m_HeuristicCost; }
-        set { m_HeuristicCost = value; }
-      }
+    public PathEntry(Polygon entrypolygon, PathEntry predecessor, int heuristiccost)
+    {
+      m_EntryPolygon = entrypolygon;
+      m_HeuristicCost = heuristiccost;
+      m_Predecessor = predecessor;
+      CalculateCost();
+    }
 
-      public Polygon EntryPolygon
+    public void CalculateCost()
+    {
+      if (m_Predecessor != null)
       {
-        get { return m_EntryPolygon; }
-        set { m_EntryPolygon = value; }
-      }
+        m_CostFromLastEntry = m_EntryPolygon.Distance(m_Predecessor.EntryPolygon);
 
-      public PathEntry Predecessor
-      {
-        get { return m_Predecessor; }
-        set { m_Predecessor = value; }
-      }
-
-      public int OverallCost
-      {
-        get
+        PathEntry prePredecessor = m_Predecessor.Predecessor;
+        while (prePredecessor != null)
         {
-          return m_CostFromLastEntry + m_HeuristicCost;
+          m_CostFromLastEntry += prePredecessor.m_CostFromLastEntry;
+          prePredecessor = prePredecessor.m_Predecessor;
         }
       }
-
-      public PathEntry(Polygon entrypolygon, PathEntry predecessor, int heuristiccost)
+      else
       {
-        m_EntryPolygon = entrypolygon;
-        m_HeuristicCost = heuristiccost;
-        m_Predecessor = predecessor;
-        CalculateCost();
-      }
-
-      private void CalculateCost()
-      {
-        if (m_Predecessor != null)
-        {
-          m_CostFromLastEntry = m_EntryPolygon.Distance(m_Predecessor.EntryPolygon);
-
-          PathEntry prePredecessor = m_Predecessor.Predecessor;
-          while (prePredecessor != null)
-          {
-            m_CostFromLastEntry += prePredecessor.m_CostFromLastEntry;
-            prePredecessor = prePredecessor.m_Predecessor;
-          }
-        }
-        else
-	      {
-          m_CostFromLastEntry = 0;
-        }
+        m_CostFromLastEntry = 0;
       }
     }
   }
