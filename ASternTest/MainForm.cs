@@ -80,7 +80,7 @@ namespace ASternTest
 
       int pointwidth = 2 * m_Factor / 5;
       pointwidth = pointwidth < 2 ? 2 : pointwidth;
-      foreach (Vertice v in m_Manager.VerticeList)
+      foreach (Vertex v in m_Manager.VertexList)
       {
         g.FillPie(Brushes.Red, v.Position.X * m_Factor - pointwidth / 2, v.Position.Y * m_Factor - pointwidth / 2, pointwidth, pointwidth, 0, 360);
       }
@@ -112,17 +112,17 @@ namespace ASternTest
 
     private void DrawPolygon(Graphics g, Polygon p)
     {
-      g.DrawLine(Pens.Black, p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor, p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor);
-      g.DrawLine(Pens.Black, p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor, p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor);
-      g.DrawLine(Pens.Black, p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor, p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor);
+      g.DrawLine(Pens.Black, p.Vertex0.Position.X * m_Factor, p.Vertex0.Position.Y * m_Factor, p.Vertex1.Position.X * m_Factor, p.Vertex1.Position.Y * m_Factor);
+      g.DrawLine(Pens.Black, p.Vertex1.Position.X * m_Factor, p.Vertex1.Position.Y * m_Factor, p.Vertex2.Position.X * m_Factor, p.Vertex2.Position.Y * m_Factor);
+      g.DrawLine(Pens.Black, p.Vertex2.Position.X * m_Factor, p.Vertex2.Position.Y * m_Factor, p.Vertex0.Position.X * m_Factor, p.Vertex0.Position.Y * m_Factor);
     }
 
     private void FillPolygon(Graphics g, Polygon p, Color c)
     {
       g.FillPolygon(new SolidBrush(c), new Point[] {
-        new Point(p.Vertice0.Position.X * m_Factor, p.Vertice0.Position.Y * m_Factor), 
-        new Point(p.Vertice1.Position.X * m_Factor, p.Vertice1.Position.Y * m_Factor),
-        new Point(p.Vertice2.Position.X * m_Factor, p.Vertice2.Position.Y * m_Factor)});
+        new Point(p.Vertex0.Position.X * m_Factor, p.Vertex0.Position.Y * m_Factor), 
+        new Point(p.Vertex1.Position.X * m_Factor, p.Vertex1.Position.Y * m_Factor),
+        new Point(p.Vertex2.Position.X * m_Factor, p.Vertex2.Position.Y * m_Factor)});
     }
 
     private void btnDoPaint_Click(object sender, EventArgs e)
