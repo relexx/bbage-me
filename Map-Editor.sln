@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsEngine", "GraphicsE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineTester", "EngineTester\EngineTester.csproj", "{50635836-9B32-4E96-8CD8-7D8FDB26D22C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{77DA2C95-28FD-444A-BEE3-B26E5EE33893}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{50635836-9B32-4E96-8CD8-7D8FDB26D22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50635836-9B32-4E96-8CD8-7D8FDB26D22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50635836-9B32-4E96-8CD8-7D8FDB26D22C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77DA2C95-28FD-444A-BEE3-B26E5EE33893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77DA2C95-28FD-444A-BEE3-B26E5EE33893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77DA2C95-28FD-444A-BEE3-B26E5EE33893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77DA2C95-28FD-444A-BEE3-B26E5EE33893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

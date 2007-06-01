@@ -1,0 +1,18 @@
+#!SST
+
+
+sprite mouse_cursor {
+bitmap	= ../../../Map-Editor/sprites/cursor.tga
+type	= blend
+layout	= 1x1
+hotspot	= 2,2
+}
+
+sprite player_character01 {
+bitmap	= ../../../Map-Editor/sprites/ACTION2.bmp
+type    = colorkey
+keyrgb  = ff00ff
+layout	= 18x11
+hotspot = center
+collide = bitmask
+}
