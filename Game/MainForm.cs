@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SpriteCraft;
+using Pathfinder;
 
 namespace Game
 {
@@ -14,6 +15,7 @@ namespace Game
     private Engine m_Engine;
     private Character m_Character;
     private Mouse m_Mouse;
+    private Pathfinder.Pathfinder m_Pathfinder;
 
     public int MouseX { get { return m_Engine.mouseX; } }
     public int MouseY { get { return m_Engine.mouseY; } }
@@ -22,6 +24,9 @@ namespace Game
     public MainForm()
     {
       m_Engine = new EngineClass();
+      polygonm
+      m_Pathfinder = new Pathfinder.Pathfinder();
+      m_Pathfinder.
     }
 
     public void Init()
