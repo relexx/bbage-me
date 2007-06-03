@@ -16,6 +16,7 @@ namespace Game
     private Character m_Character;
     private Mouse m_Mouse;
     private Pathfinder.Pathfinder m_Pathfinder;
+    private PolygonManager m_PolygonManager;
 
     public int MouseX { get { return m_Engine.mouseX; } }
     public int MouseY { get { return m_Engine.mouseY; } }
@@ -24,9 +25,9 @@ namespace Game
     public MainForm()
     {
       m_Engine = new EngineClass();
-      polygonm
-      m_Pathfinder = new Pathfinder.Pathfinder();
-      m_Pathfinder.
+      m_PolygonManager = new PolygonManager();
+      m_Pathfinder = new Pathfinder.Pathfinder(m_PolygonManager);
+      m_PolygonManager.AddRectangle(new Rectangle(Point.Empty, new Size()), PolygonType.normal, 2);
     }
 
     public void Init()
@@ -60,6 +61,7 @@ namespace Game
           {
             m_Character.Walkto_X = m_Engine.mouseX;
             m_Character.Walkto_Y = m_Engine.mouseY;
+            m_Character.UpdateWalkingDirection();
           }
         }
 

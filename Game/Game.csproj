@@ -74,6 +74,12 @@
       <Isolated>False</Isolated>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pathfinder\Pathfinder.csproj">
+      <Project>{337DF0F9-AB44-4D4D-A361-31797815485B}</Project>
+      <Name>Pathfinder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
