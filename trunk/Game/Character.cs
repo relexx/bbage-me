@@ -66,23 +66,23 @@ namespace Game
       if (false) {}
       else if (oposite < 0 && adjacent < 0)
       {
-        output += " -- 90 -- ";
-        angle += 90;
-      }
-      else if (oposite > 0 && adjacent < 0)
-      {
-        output += " -- 0 -- ";
-        angle += 0;
-      }
-      else if (oposite < 0 && adjacent > 0)
-      {
         output += " -- 180 -- ";
         angle += 180;
       }
-      else if (oposite > 0 && adjacent > 0)
+      else if (oposite > 0 && adjacent < 0)
       {
         output += " -- 270 -- ";
         angle += 270;
+      }
+      else if (oposite < 0 && adjacent > 0)
+      {
+        output += " -- 90 -- ";
+        angle += 90;
+      }
+      else if (oposite > 0 && adjacent > 0)
+      {
+        output += " -- 0 -- ";
+        angle += 0;
       }
 
       output += " offset+angle: " + angle;
@@ -99,33 +99,33 @@ namespace Game
       {output += " --> O <-- ";
         m_Character.frno += 1;
       }
-      else if (angle >= 247.5 && angle < 292.5) // N
-      //else if (angle >= 67.5 && angle < 112.5) // N
+      //else if (angle >= 247.5 && angle < 292.5) // N
+      else if (angle >= 67.5 && angle < 112.5) // N
       {output += " --> N <-- ";
         m_Character.frno += 2;
       }
-      else if (angle >= 292.5 && angle < 337.5) // NO
-      //else if (angle >= 112.5 && angle < 157.5) // NO
+      //else if (angle >= 292.5 && angle < 337.5) // NO
+      else if (angle >= 112.5 && angle < 157.5) // NO
       {output += " --> NO <-- ";
         m_Character.frno += 3;
       }
-      else if (angle >= 202.5 && angle < 247.5) // NW
-      //else if (angle >= 22.5 && angle < 67.5) // NW
+      //else if (angle >= 202.5 && angle < 247.5) // NW
+      else if (angle >= 22.5 && angle < 67.5) // NW
       {output += " --> NW <-- ";
         m_Character.frno += 4;
       }
-      else if (angle >= 67.5 && angle < 112.5) // S
-      //else if (angle >= 247.5 && angle < 292.5) // S
+      //else if (angle >= 67.5 && angle < 112.5) // S
+      else if (angle >= 247.5 && angle < 292.5) // S
       {output += " --> S <-- ";
         m_Character.frno += 5;
       }
-      else if (angle >= 112.5 && angle < 157.5) // SW
-      //else if (angle >= 292.5 && angle < 337.5) // SW
+      //else if (angle >= 112.5 && angle < 157.5) // SW
+      else if (angle >= 292.5 && angle < 337.5) // SW
       {output += " --> SW <-- ";
         m_Character.frno += 6;
       }
-      else if (angle >= 22.5 && angle < 67.5) // SO
-      //else if (angle >= 202.5 && angle < 247.5) // SO
+      //else if (angle >= 22.5 && angle < 67.5) // SO
+      else if (angle >= 202.5 && angle < 247.5) // SO
       {output += " --> SO <-- ";
         m_Character.frno += 7;
       }
