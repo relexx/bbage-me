@@ -26,13 +26,13 @@ namespace Game
     public double Walkto_X
     {
       get { return m_Walkto_X; }
-      set { m_Walkto_X = value; UpdateWalkingDirection(); }
+      set { m_Walkto_X = value; }
     }
 
     public double Walkto_Y
     {
       get { return m_Walkto_Y; }
-      set { m_Walkto_Y = value; UpdateWalkingDirection();  }
+      set { m_Walkto_Y = value; }
     }
 
     public Character(ISprite charactersprite, int srcwidth, int srcheight)
@@ -51,7 +51,7 @@ namespace Game
       m_Walkto_Y = m_Character.y;
     }
 
-    private void UpdateWalkingDirection()
+    public void UpdateWalkingDirection()
     {
       string output = "";
       double adjacent = m_Character.y - m_Walkto_Y;
@@ -91,7 +91,7 @@ namespace Game
 
 
       if (false) { }
-      else if (angle >= 337.5 && angle < 22.5) // W
+      else if (angle >= 337.5 && angle < 360 || angle >= 0 && angle < 22.5) // W
       {output += " --> W <-- ";
         m_Character.frno += 0;
       }
@@ -122,12 +122,12 @@ namespace Game
       //else if (angle >= 112.5 && angle < 157.5) // SW
       else if (angle >= 292.5 && angle < 337.5) // SW
       {output += " --> SW <-- ";
-        m_Character.frno += 6;
+        m_Character.frno += 7;
       }
       //else if (angle >= 22.5 && angle < 67.5) // SO
       else if (angle >= 202.5 && angle < 247.5) // SO
       {output += " --> SO <-- ";
-        m_Character.frno += 7;
+        m_Character.frno += 6;
       }
       else
       { output += " --> ??? <-- "; }
