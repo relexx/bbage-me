@@ -1,0 +1,2 @@
+BuboBubo Adventure Game Engine (BBAGE) is an game engine in progress for point-and-click adventure games.
+The map-editor (BBAGE ME) is one part of the BBAGE universe to create maps and pathes for the engine.
